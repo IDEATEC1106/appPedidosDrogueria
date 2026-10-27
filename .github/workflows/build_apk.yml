@@ -28,11 +28,11 @@ jobs:
 
       - name: 4. Instalar dependencias del proyecto
         run: flutter pub get
-        working-directory: ./appPedidosDrogueria  # <--- CAMBIA ESTO por el nombre real de tu carpeta
+        working-directory: appPedidosDrogueria
 
       - name: 5. Compilar APK en modo Release
         run: flutter build apk --release
-        working-directory: ./appPedidosDrogueria  # <--- CAMBIA ESTO por el nombre real de tu carpeta
+        working-directory: appPedidosDrogueria
 
       - name: 6. Subir el APK como artefacto descargable
         uses: actions/upload-artifact@v4
