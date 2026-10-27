@@ -1,8 +1,20 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
 void main() {
-  runApp(const MyApp());
+  // 1. Atrapa errores no controlados de Flutter para evitar el cierre instantáneo
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
+
+  // 2. Atrapa errores asíncronos y de arranque
+  runZonedGuarded(() {
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(const MyApp());
+  }, (error, stack) {
+    print("Error crítico atrapado: $error");
+  });
 }
 
 class MyApp extends StatelessWidget {
