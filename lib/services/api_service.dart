@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Cambia esta URL por la IP y puerto donde corre tu Flask (ej. http://192.168.15.XXX:5003)
-  static const String baseUrl = 'http://192.168.15.253:5003/api';
+  static const String baseUrl = 'http://38.224.68.171:5003/api';
 
   // --- LOGIN ---
   static Future<Map<String, dynamic>> login(String usuario, String clave) async {
