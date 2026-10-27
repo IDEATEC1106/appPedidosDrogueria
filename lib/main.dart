@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
 void main() {
-  // 1. Atrapa errores no controlados de Flutter para evitar el cierre instantáneo
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
   };
 
-  // 2. Atrapa errores asíncronos y de arranque
   runZonedGuarded(() {
     WidgetsFlutterBinding.ensureInitialized();
     runApp(const MyApp());
@@ -160,12 +158,13 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
       _isLoading = true;
       _errorMessage = '';
     });
+
     final now = DateTime.now();
     final fechaHoy = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final idPersona = widget.userData['id_persona'].toString();
-    
+
     final resultado = await ApiService.getHojaRuta(fechaHoy, idPersona);
-    
+
     setState(() {
       _isLoading = false;
       if (resultado['success'] == true) {
@@ -175,34 +174,6 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
       }
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final nombreUsuario = widget.userData['nombre'] ?? 'Usuario';
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hoja de Ruta - $nombreUsuario'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _cargarHojaRuta,
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: _isLoading 
-        ? const Center(child: CircularProgressIndicator()) 
-        : ... // (el resto del código que ya tienes para mostrar los clientes)
 
   @override
   Widget build(BuildContext context) {
@@ -254,8 +225,7 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                       itemBuilder: (context, index) {
                         final cliente = _clientes[index];
                         return Card(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           elevation: 2,
                           child: ListTile(
                             leading: const CircleAvatar(
@@ -263,17 +233,13 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                               child: Icon(Icons.store, color: Colors.white),
                             ),
                             title: Text(
-                              cliente['nombre'] ??
-                                  cliente['razon_social'] ??
-                                  'Cliente sin nombre',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              cliente['nombre'] ?? cliente['razon_social'] ?? 'Cliente sin nombre',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               'Dirección: ${cliente['direccion'] ?? 'Sin dirección'}',
                             ),
-                            trailing: const Icon(Icons.arrow_forward_ios,
-                                size: 16),
+                            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
