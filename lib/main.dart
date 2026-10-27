@@ -127,7 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
 // ==================== HOJA DE RUTA SCREEN ====================
 class HojaRutaScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
-
   const HojaRutaScreen({super.key, required this.userData});
 
   @override
@@ -234,7 +233,11 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Seleccionaste a: ${cliente['nombre'] ?? cliente['razon_social']}')),
+                                SnackBar(
+                                  content: Text(
+                                    'Seleccionaste a: ${cliente['nombre'] ?? cliente['razon_social']}',
+                                  ),
+                                ),
                               );
                             },
                           ),
