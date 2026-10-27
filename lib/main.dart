@@ -1,16 +1,37 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'services/api_service.dart';
+import 'main.dart'; // O tu estructura de pantallas
 
 void main() {
+  // Captura errores de Flutter framework
   FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
+    runApp(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text('Error de Flutter:\n${details.exception}', style: const TextStyle(color: Colors.red)),
+          ),
+        ),
+      ),
+    ));
   };
+
+  // Captura errores asíncronos y fallos de arranque en frío
   runZonedGuarded(() {
     WidgetsFlutterBinding.ensureInitialized();
     runApp(const MyApp());
-  }, (error, stack) {
-    print("Error crítico atrapado: $error");
+  }, (error, stackTrace) {
+    runApp(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text('Error Crítico de Arranque:\n$error', style: const TextStyle(color: Colors.red)),
+          ),
+        ),
+      ),
+    ));
   });
 }
 
