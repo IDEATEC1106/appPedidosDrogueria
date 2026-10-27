@@ -23,11 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pedidos Droguería',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(),
+      home: const LoginScreen(), // <-- Debe ser LoginScreen()
     );
   }
 }
@@ -45,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passController = TextEditingController();
   bool _isLoading = false;
 
-  void _facerLogin() async {
+ void _facerLogin() async {
     final usuario = _userController.text.trim();
     final clave = _passController.text.trim();
 
