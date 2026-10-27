@@ -20,7 +20,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-   assets:
+  assets:
      - drogueria_pacifico.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
