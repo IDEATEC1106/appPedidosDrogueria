@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'hoja_ruta_screen.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  final Map<String, dynamic> userData;
+  const MenuScreen({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Menú Principal - Droguería')),
+      appBar: AppBar(title: Text('Droguería - Hola, ${userData['nombre']}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.count(
@@ -17,23 +19,20 @@ class MenuScreen extends StatelessWidget {
             _BotonMenu(
               titulo: 'Hoja de Ruta',
               icono: Icons.map,
-              onTap: () {
-                // TODO: Navegar a Hoja de Ruta
-              },
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HojaRutaScreen(idPersona: userData['id_persona'])),
+              ),
             ),
             _BotonMenu(
               titulo: 'Registro de Pedidos',
               icono: Icons.add_shopping_cart,
-              onTap: () {
-                // Aquí iniciaremos la pantalla del carrito y selección de productos
-              },
+              onTap: () {},
             ),
             _BotonMenu(
               titulo: 'Lista de Pedidos',
               icono: Icons.list_alt,
-              onTap: () {
-                // TODO: Ver Pendientes y Atendidos
-              },
+              onTap: () {},
             ),
           ],
         ),
@@ -46,7 +45,6 @@ class _BotonMenu extends StatelessWidget {
   final String titulo;
   final IconData icono;
   final VoidCallback onTap;
-
   const _BotonMenu({required this.titulo, required this.icono, required this.onTap});
 
   @override
