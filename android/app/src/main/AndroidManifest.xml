@@ -1,29 +1,42 @@
-void _facerLogin() async {
-    final usuario = _userController.text.trim();
-    final clave = _passController.text.trim();
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    if (usuario.isEmpty || clave.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor ingrese usuario y contraseña')),
-      );
-      return;
-    }
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    setState(() => _isLoading = true);
-    final resultado = await ApiService.login(usuario, clave);
-    setState(() => _isLoading = false);
+    <application
+        android:label="AppPedidosDrogueria"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+            />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
 
-    if (resultado['success'] == true) {
-      final user = resultado['user'];
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HojaRutaScreen(userData: user),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(resultado['message'] ?? 'Error desconocido')),
-      );
-    }
-  }
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+</manifest>
