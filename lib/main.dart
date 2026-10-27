@@ -148,14 +148,12 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
       _isLoading = true;
       _errorMessage = '';
     });
-
     final now = DateTime.now();
-    final fechaHoy =
-        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    final fechaHoy = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final idPersona = widget.userData['id_persona'].toString();
-
+    
     final resultado = await ApiService.getHojaRuta(fechaHoy, idPersona);
-
+    
     setState(() {
       _isLoading = false;
       if (resultado['success'] == true) {
