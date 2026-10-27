@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'main.dart'; // O tu estructura de pantallas
+import 'services/api_service.dart'; // <-- ¡Esta línea es obligatoria para que reconozca ApiService!
 
 void main() {
   // Captura errores de Flutter framework
