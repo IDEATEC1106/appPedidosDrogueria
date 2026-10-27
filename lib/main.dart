@@ -179,6 +179,34 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
   @override
   Widget build(BuildContext context) {
     final nombreUsuario = widget.userData['nombre'] ?? 'Usuario';
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Hoja de Ruta - $nombreUsuario'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _cargarHojaRuta,
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator()) 
+        : ... // (el resto del código que ya tienes para mostrar los clientes)
+
+  @override
+  Widget build(BuildContext context) {
+    final nombreUsuario = widget.userData['nombre'] ?? 'Usuario';
 
     return Scaffold(
       appBar: AppBar(
