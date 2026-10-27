@@ -6,7 +6,6 @@ void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
   };
-
   runZonedGuarded(() {
     WidgetsFlutterBinding.ensureInitialized();
     runApp(const MyApp());
@@ -53,7 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() => _isLoading = true);
+
     final resultado = await ApiService.login(usuario, clave);
+
     setState(() => _isLoading = false);
 
     if (resultado['success'] == true) {
@@ -156,7 +157,8 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
     });
 
     final now = DateTime.now();
-    final fechaHoy = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    final fechaHoy =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final idPersona = widget.userData['id_persona'].toString();
 
     final resultado = await ApiService.getHojaRuta(fechaHoy, idPersona);
@@ -221,7 +223,8 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                       itemBuilder: (context, index) {
                         final cliente = _clientes[index];
                         return Card(
-                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           elevation: 2,
                           child: ListTile(
                             leading: const CircleAvatar(
@@ -229,13 +232,17 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                               child: Icon(Icons.store, color: Colors.white),
                             ),
                             title: Text(
-                              cliente['nombre'] ?? cliente['razon_social'] ?? 'Cliente sin nombre',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              cliente['nombre'] ??
+                                  cliente['razon_social'] ??
+                                  'Cliente sin nombre',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               'Dirección: ${cliente['direccion'] ?? 'Sin dirección'}',
                             ),
-                            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                            trailing: const Icon(Icons.arrow_forward_ios,
+                                size: 16),
                             onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
