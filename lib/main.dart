@@ -54,8 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (resultado['success'] == true) {
       final user = resultado['user'];
-      
-      // Navegamos a la Hoja de Ruta pasando los datos del usuario
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -153,7 +151,6 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
       _errorMessage = '';
     });
 
-    // Obtenemos la fecha actual en formato YYYY-MM-DD
     final now = DateTime.now();
     final fechaHoy = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final idPersona = widget.userData['id_persona'].toString();
@@ -236,9 +233,8 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                             ),
                             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
-                              // Aquí luego podemos abrir el detalle de facturas o generar el pedido
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Seleccionaste a: ${cliente['nombre']}')),
+                                SnackBar(content: Text('Seleccionaste a: ${cliente['nombre'] ?? cliente['razon_social']}')),
                               );
                             },
                           ),
