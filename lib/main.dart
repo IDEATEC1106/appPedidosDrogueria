@@ -3,23 +3,41 @@ import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
 void main() {
-  // Captura cualquier error asíncrono o de arranque en frío de la app
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    
-    // Prueba de conexión inicial opcional
-    await ApiService.probarConexion();
-
-    runApp(const MyApp());
-  }, (error, stackTrace) {
+  // Capturamos cualquier error a nivel global de Flutter
+  FlutterError.onError = (FlutterErrorDetails details) {
     runApp(MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Error Crítico de Arranque:\n$error',
-              style: const TextStyle(color: Colors.red),
+        backgroundColor: Colors.red[900],
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Text(
+                'ERROR DE FLUTTER:\n${details.exception}\n\n${details.stack}',
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ));
+  };
+
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(const MyApp());
+  }, (error, stack) {
+    runApp(MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Text(
+                'ERROR CRÍTICO ASÍNCRONO:\n$error\n\n$stack',
+                style: const TextStyle(color: Colors.yellow, fontSize: 14),
+              ),
             ),
           ),
         ),
