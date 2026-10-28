@@ -2,10 +2,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // URL base de tu servidor backend en Flask
   static const String baseUrl = 'http://38.224.68.171:5003/api';
 
-  // 1. Método para iniciar sesión (POST con JSON en el body)
+  // --- PRUEBA DE CONEXIÓN PURA ---
+  static Future<void> probarConexion() async {
+    try {
+      print("PROBANDO CONEXIÓN A: $baseUrl/login");
+      final response = await http.get(
+        Uri.parse('$baseUrl/login'),
+      );
+      print("RESPUESTA DEL SERVIDOR (Código ${response.statusCode}):");
+      print(response.body);
+    } catch (e) {
+      print("¡ERROR CRÍTICO DE RED AL CONECTAR CON EL SERVIDOR!: $e");
+    }
+  }
+
+  // 1. Método para iniciar sesión
   static Future<Map<String, dynamic>> login(String usuario, String contrasena) async {
     try {
       final response = await http.post(
@@ -34,7 +47,7 @@ class ApiService {
     }
   }
 
-  // 2. Método para obtener la hoja de ruta (GET con parámetros en la URL)
+  // 2. Método para obtener la hoja de ruta
   static Future<Map<String, dynamic>> getHojaRuta(String fecha, String idPersona) async {
     try {
       final response = await http.get(
@@ -58,7 +71,7 @@ class ApiService {
     }
   }
 
-  // 3. Método para obtener el detalle de las facturas adeudadas por cliente (GET)
+  // 3. Método para obtener el detalle de las facturas adeudadas
   static Future<Map<String, dynamic>> getHojaRutaDetalle(String idCliente) async {
     try {
       final response = await http.get(
@@ -82,7 +95,7 @@ class ApiService {
     }
   }
 
-  // 4. Método para guardar un pedido (POST con JSON en el body)
+  // 4. Método para guardar un pedido
   static Future<Map<String, dynamic>> guardarPedido(Map<String, dynamic> datosPedido) async {
     try {
       final response = await http.post(
