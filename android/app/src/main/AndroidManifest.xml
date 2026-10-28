@@ -1,27 +1,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 1. AGREGA ESTE PERMISO FUERA DE LA ETIQUETA APPLICATION -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="AppPedidosDrogueria"
+        android:label="app_pedidos_drogueria"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true">
+        
+        <!-- 2. AGREGA ESTA PROPIEDAD PARA PERMITIR CONEXIONES HTTP (NO HTTPS) -->
+        android:usesCleartextTraffic="true"
+        
+        android:roundIcon="@mipmap/ic_launcher">
         
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-            />
+              android:theme="@style/NormalTheme"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -32,11 +34,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-    </queries>
 </manifest>
