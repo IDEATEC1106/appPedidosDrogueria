@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'services/api_service.dart'; // <-- ¡Esta línea es obligatoria para que reconozca ApiService!
+import 'services/api_service.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  ApiService.probarConexion(); // <-- Esto imprimirá si la red llega o si es bloqueada por el navegador/red
-  runApp(const MyApp());
-}
-
-  // Captura errores asíncronos y fallos de arranque en frío
-  runZonedGuarded(() {
+  // Captura cualquier error asíncrono o de arranque en frío de la app
+  runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    
+    // Prueba de conexión inicial opcional
+    await ApiService.probarConexion();
+
     runApp(const MyApp());
   }, (error, stackTrace) {
     runApp(MaterialApp(
@@ -18,7 +17,10 @@ void main() {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Error Crítico de Arranque:\n$error', style: const TextStyle(color: Colors.red)),
+            child: Text(
+              'Error Crítico de Arranque:\n$error',
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ),
       ),
@@ -64,9 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() => _isLoading = true);
-
     final resultado = await ApiService.login(usuario, clave);
-
     setState(() => _isLoading = false);
 
     if (resultado['success'] == true) {
@@ -169,8 +169,7 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
     });
 
     final now = DateTime.now();
-    final fechaHoy =
-        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    final fechaHoy = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final idPersona = widget.userData['id_persona'].toString();
 
     final resultado = await ApiService.getHojaRuta(fechaHoy, idPersona);
@@ -235,8 +234,7 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                       itemBuilder: (context, index) {
                         final cliente = _clientes[index];
                         return Card(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           elevation: 2,
                           child: ListTile(
                             leading: const CircleAvatar(
@@ -244,17 +242,13 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
                               child: Icon(Icons.store, color: Colors.white),
                             ),
                             title: Text(
-                              cliente['nombre'] ??
-                                  cliente['razon_social'] ??
-                                  'Cliente sin nombre',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold),
+                              cliente['nombre'] ?? cliente['razon_social'] ?? 'Cliente sin nombre',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               'Dirección: ${cliente['direccion'] ?? 'Sin dirección'}',
                             ),
-                            trailing: const Icon(Icons.arrow_forward_ios,
-                                size: 16),
+                            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
