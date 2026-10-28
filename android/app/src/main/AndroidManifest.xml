@@ -1,16 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 1. AGREGA ESTE PERMISO FUERA DE LA ETIQUETA APPLICATION -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="app_pedidos_drogueria"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        
-        <!-- 2. AGREGA ESTA PROPIEDAD PARA PERMITIR CONEXIONES HTTP (NO HTTPS) -->
         android:usesCleartextTraffic="true"
-        
         android:roundIcon="@mipmap/ic_launcher">
         
         <activity
@@ -23,7 +19,8 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:theme="@style/NormalTheme"
-              />
+            />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
