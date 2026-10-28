@@ -3,19 +3,10 @@ import 'package:flutter/material.dart';
 import 'services/api_service.dart'; // <-- ¡Esta línea es obligatoria para que reconozca ApiService!
 
 void main() {
-  // Captura errores de Flutter framework
-  FlutterError.onError = (FlutterErrorDetails details) {
-    runApp(MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text('Error de Flutter:\n${details.exception}', style: const TextStyle(color: Colors.red)),
-          ),
-        ),
-      ),
-    ));
-  };
+  WidgetsFlutterBinding.ensureInitialized();
+  ApiService.probarConexion(); // <-- Esto imprimirá si la red llega o si es bloqueada por el navegador/red
+  runApp(const MyApp());
+}
 
   // Captura errores asíncronos y fallos de arranque en frío
   runZonedGuarded(() {
