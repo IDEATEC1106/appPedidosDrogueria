@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
 void main() {
-  // Capturamos cualquier error a nivel global de Flutter
+  // Capturamos cualquier error global para evitar cierres silenciosos
   FlutterError.onError = (FlutterErrorDetails details) {
     runApp(MaterialApp(
       home: Scaffold(
@@ -13,7 +13,7 @@ void main() {
           child: Center(
             child: SingleChildScrollView(
               child: Text(
-                'ERROR DE FLUTTER:\n${details.exception}\n\n${details.stack}',
+                'ERROR DE FLUTTER:\n${details.exception}',
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
@@ -33,11 +33,9 @@ void main() {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: SingleChildScrollView(
-              child: Text(
-                'ERROR CRÍTICO ASÍNCRONO:\n$error\n\n$stack',
-                style: const TextStyle(color: Colors.yellow, fontSize: 14),
-              ),
+            child: Text(
+              'ERROR CRÍTICO:\n$error',
+              style: const TextStyle(color: Colors.yellow, fontSize: 14),
             ),
           ),
         ),
@@ -54,12 +52,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pedidos Droguería',
       debugShowCheckedModeBanner: false,
+      // AQUÍ ESTABLECEMOS EL INICIO ESTRICTO EN EL LOGIN
       home: const LoginScreen(),
     );
   }
 }
 
-// ==================== LOGIN SCREEN ====================
+// ==================== 1. PANTALLA DE LOGIN ====================
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -72,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passController = TextEditingController();
   bool _isLoading = false;
 
-  void _facerLogin() async {
+  void _hacerLogin() async {
     final usuario = _userController.text.trim();
     final clave = _passController.text.trim();
 
@@ -89,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (resultado['success'] == true) {
       final user = resultado['user'];
+      // Si el login es correcto, navega a la Hoja de Ruta pasando los datos del usuario
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(resultado['message'] ?? 'Error desconocido')),
+        SnackBar(content: Text(resultado['message'] ?? 'Credenciales incorrectas')),
       );
     }
   }
@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _facerLogin,
+                  onPressed: _isLoading ? null : _hacerLogin,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-// ==================== HOJA DE RUTA SCREEN ====================
+// ==================== 2. PANTALLA DE HOJA DE RUTA ====================
 class HojaRutaScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
 
@@ -219,6 +219,7 @@ class _HojaRutaScreenState extends State<HojaRutaScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
+              // Cierra sesión volviendo al Login
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
